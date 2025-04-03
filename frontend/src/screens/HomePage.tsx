@@ -12,17 +12,17 @@ const HomePage = () => {
     const [showLoader, setShowLoader] = useState(false);
 
     async function callBackend() {
-        
-        if(installationCode === ''){
+
+        if (installationCode === '') {
             alert('No installation code given');
             return;
-        } 
-        try{
-        setShowLoader(true);
-        const installationBody = JSON.parse(installationCode);
-
+        }
+        try {
+            setShowLoader(true);
+            const installationBody = JSON.parse(installationCode);
+            const backendUrl = import.meta.env.VITE_API_URL;
             const response = await axios.post(
-                "http://localhost:3000/check-mcp",
+                backendUrl,
                 installationBody,
                 {
                     headers: {
@@ -35,7 +35,7 @@ const HomePage = () => {
             setInstallationCode('');
             setShowCheck(true);
             setShowLoader(false);
-        } catch(e){
+        } catch (e) {
             alert(e);
             setResult({});
             setInstallationCode('');
@@ -59,11 +59,11 @@ const HomePage = () => {
             <div className="flex flex-col gap-3">
                 <h1 className="pb-4">{result.message}</h1>
                 <div>
-                    
-                <RetryButton setShowCheck={setShowCheck} setShowLoader={setShowLoader} setResult={setResult} />
+
+                    <RetryButton setShowCheck={setShowCheck} setShowLoader={setShowLoader} setResult={setResult} />
                 </div>
                 {
-                    result.outputData &&
+                    (result.outputData.length !== 0) &&
 
                     <div className="flex flex-col border">
                         <h2 className="bg-green-500 text-black text-xl font-semibold">Logs</h2>
@@ -78,9 +78,9 @@ const HomePage = () => {
             <div className='flex flex-col gap-4 items-center'>
 
                 <h1>MCP Server Tester</h1>
-                <input type="text" placeholder='Enter Your Smithery API Key' className='w-full px-3 py-1 border' onChange={(e) => setApiKey(e.target.value)} />
+                <input type="text" value={apiKey} placeholder='Enter Your Smithery API Key' className='w-full px-3 py-1 border' onChange={(e) => setApiKey(e.target.value)} />
 
-                <textarea placeholder='Enter Installation Code in JSON for windows' className='w-full h-80 px-3 py-1 border' onChange={(e) => setInstallationCode(e.target.value)} />
+                <textarea placeholder='Enter Installation Code in JSON' className='w-full h-80 px-3 py-1 border' onChange={(e) => setInstallationCode(e.target.value)} />
 
                 <button onClick={callBackend} className="w-60 text-3xl py-2 bg-blue-700 border-blue-400 border-2 my-5">Check MCP Server</button>
             </div>

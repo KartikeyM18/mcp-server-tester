@@ -71,10 +71,10 @@ app.post('/check-mcp', async (req, res) => {
 
         if(stdioFunc.command && stdioFunc.args){
 
-            const command2 = 'cmd';
-            // const command2 = stdioFunc.command
-            const args2 = ['/c', stdioFunc.command, ...(stdioFunc.args)]
-            // const args2 = stdioFunc.args
+            // const command2 = 'cmd';
+            const command2 = stdioFunc.command
+            // const args2 = ['/c', stdioFunc.command, ...(stdioFunc.args)]
+            const args2 = stdioFunc.args
             const process2 = spawn(command2, args2);
 
             process2.stdout.on("data", (data) => {

@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(cors());
 
 const port = 3000;
-
+let outputData = [];
 
 async function fetchServerData(qualifiedName) {
     try {
@@ -16,7 +16,8 @@ async function fetchServerData(qualifiedName) {
         if (!response.data.connections || !response.data.remote) return { msg: "error" };
         const serverData = response.data.connections;
         // console.log(response.data);
-
+        const strData = JSON.stringify(serverData);
+        outputData.push(strData);
         let func = {};
         for (let i = 0; i < serverData.length; i++) {
             const conn = serverData[i];
@@ -66,7 +67,7 @@ app.post('/check-mcp', async (req, res) => {
             return res.json({ message: "No Connection to this MCP server." });
         }
 
-        let outputData = [];
+        
         const process = spawn(command, args);
 
         if(stdioFunc.command && stdioFunc.args){

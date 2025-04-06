@@ -73,16 +73,14 @@ npm run dev
 {
   "mcpServers": {
     "server-sequential-thinking": {
-      "command": "cmd",
+      "command": "npx",
       "args": [
-        "/c",
-        "npx",
         "-y",
         "@smithery/cli@latest",
         "run",
         "@smithery-ai/server-sequential-thinking",
-        "--key",
-        "your-api-key"
+        "--config",
+        "{}"
       ]
     }
   }
